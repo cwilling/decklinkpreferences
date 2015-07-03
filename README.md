@@ -13,7 +13,7 @@ Run:
 	qmake
 	make
 ```
-to produce the decklinkpreferences executable.
+to produce the _decklinkpreferences_ executable.
 
 ### Usage:
 
@@ -24,7 +24,7 @@ decklinkprefences [-l] [-p portId] [-s]
 	-s           Save configuration across reboots
 ```
 
-It is suggested to first run decklinkpreferences with the -l option
+It is suggested to first run _decklinkpreferences_ with the -l option
 since that will display the input port id numbers that are valid for this device
 (probably some subset of 1, 2, 4, 8, 16, 32). Running with the -p option
 sets the video input to the given port but the result is not saved anywhere
