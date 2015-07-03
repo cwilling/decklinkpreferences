@@ -1,8 +1,11 @@
 # decklinkpreferences
 
-At the moment, we only set the video input port; maybe other features later.
+A way to set preferences for Decklink cards from the command line.
 
-Systems with multiple Decklink cards have _not_ been considered - use at your own risk.
+### Features
+As a proof of concept, we only set the video input port at the moment; maybe other features later.
+
+Systems with multiple Decklink cards have _not_ been considered - in this case use at your own risk!
 
 ### Building
 Run:
