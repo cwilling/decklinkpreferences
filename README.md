@@ -4,7 +4,7 @@ At the moment, we only set the video input port; maybe other features later.
 
 Systems with multiple Decklink cards have _not_ been considered - use at your own risk.
 
-# Building
+### Building
 Run:
 ```
 	qmake
@@ -12,7 +12,7 @@ Run:
 ```
 to produce the decklinkpreferences executable.
 
-# Usage:
+### Usage:
 
 ```
 decklinkprefences [-l] [-p portId] [-s]
