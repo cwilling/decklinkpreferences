@@ -8,12 +8,17 @@ Since this is just a proof of concept, we only set the video input port at the m
 Systems with multiple Decklink cards have _not_ been considered - in this case use at your own risk!
 
 ### Building
+The Blackmagic Design SDK is required to build from source code.
+
 Run:
 ```
 	qmake
 	make
 ```
 to produce the _decklinkpreferences_ executable.
+If building fails, check decklinkprefences.pro for correct paths
+to decklink include files and DeckLinkAPIDispatch.cpp (supplied from the SDK);
+then run qmake and make again.
 
 ### Usage:
 
