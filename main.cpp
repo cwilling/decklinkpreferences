@@ -1,3 +1,5 @@
+/* ex:set ai shiftwidth=4 inputtab=spaces noautotab: */
+
 #include <QCoreApplication>
 #include <cstdio>
 #include <unistd.h>
@@ -9,32 +11,37 @@ int main(int argc, char *argv[])
 {
     QCoreApplication a(argc, argv);
 
-    char	*appName = argv[0];
-    int		ch;
-    int64_t	ports = -1;
-    int		inputPort = -1;
-    bool	displayHelp = false;
+    char        *appName = argv[0];
+    int         ch;
+    int64_t     ports = -1;
+    int         deviceNumber = -1;
+    int         inputPort = -1;
+    bool        displayHelp = false;
     bool	listAttributes = false;
     bool	saveConfig = false;
 
-    HRESULT					result;
+    HRESULT			result;
     IDeckLinkIterator		*deckLinkIterator;
-    IDeckLink				*deckLink;
-    IDeckLinkInput			*deckLinkInput = NULL;
-    IDeckLinkAttributes     *deckLinkAttributes = NULL;
-    IDeckLinkConfiguration	*deckLinkConfiguration = NULL;
-
+    IDeckLink                   *deckLink;
+    IDeckLinkInput              *deckLinkInput = NULL;
+    IDeckLinkAttributes         *deckLinkAttributes = NULL;
+    IDeckLinkConfiguration      *deckLinkConfiguration = NULL;
 
     if ( argc == 1 )
         displayHelp = true;
 
-    while ((ch = getopt(argc, argv, "?hlp:s")) != -1)
+    while ((ch = getopt(argc, argv, "?hd:lp:s")) != -1)
     {
         switch (ch)
         {
             case 'l':
                 printf("List Attributes\n");
                 listAttributes = true;
+                break;
+
+            case 'd':
+                deviceNumber = atoi(optarg);
+                printf("Configuring device (board) number %d\n", deviceNumber);
                 break;
 
             case 'p':
@@ -211,3 +218,4 @@ void showHelp(char *appName)
     printf("\t-p portId    Set input port to one of those listed by the -l option\n");
     printf("\t-s           Save configuration across reboots\n");
 }
+
