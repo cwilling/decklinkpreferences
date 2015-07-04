@@ -238,6 +238,7 @@ void showHelp(char *appName)
     printf("Usage:\n");
     printf("%s [-l] [-p portId] [-s]\n", appName);
     printf("\t-l           List current configuration\n");
+    printf("\t-d deviceNum Set device (card) number to operate on\n");
     printf("\t-p portId    Set input port to one of those listed by the -l option\n");
     printf("\t-s           Save configuration across reboots\n");
 }
