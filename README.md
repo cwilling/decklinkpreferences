@@ -5,10 +5,12 @@ A way to set preferences for Decklink cards from the command line.
 ### Features
 Since this is just a proof of concept, we only set the video input port at the moment; maybe other features later.
 
-Systems with multiple Decklink cards have _not_ been considered - in this case use at your own risk!
+Elementary support is included for systems with multiple Decklink cards. However it is untested at the moment
+(I don't have multiple cards to test with) so in this case use the -d option at your own risk!
 
 ### Building
-The Blackmagic Design SDK is required to build from source code.
+In addition to the usual development environment (including Qt's qmake),
+the Blackmagic Design SDK is required to build _decklinkpreferences_ from source code.
 
 Run:
 ```
@@ -25,6 +27,7 @@ then run qmake and make again.
 ```
 decklinkprefences [-l] [-p portId] [-s]
 	-l           List current configuration
+	-d           Specify device (card) number to operate on
 	-p portId    Set input port to one of those listed by the -l option
 	-s           Save configuration across reboots
 ```

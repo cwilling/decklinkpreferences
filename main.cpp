@@ -1,4 +1,4 @@
-/* ex:set ai shiftwidth=4 inputtab=spaces noautotab: */
+/* ex:set ai shiftwidth=4 inputtab=spaces smarttab noautotab: */
 
 /*
 Command line preference setting for DeckLink cards (Blackmagic Design).
@@ -18,8 +18,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QCoreApplication>
 #include <cstdio>
+#include <cstdlib>
 #include <unistd.h>
 #include "DeckLinkAPI.h"
 
@@ -27,13 +27,12 @@ void showHelp(char* appName);
 
 int main(int argc, char *argv[])
 {
-    QCoreApplication a(argc, argv);
-
     char        *appName = argv[0];
     int         ch;
     int64_t     ports = -1;
-    int         deviceNumber = -1;
+    int         dnum, deviceNumber = 0;
     int         inputPort = -1;
+    bool        deviceNumberIsDefault = true;
     bool        displayHelp = false;
     bool	listAttributes = false;
     bool	saveConfig = false;
@@ -53,13 +52,12 @@ int main(int argc, char *argv[])
         switch (ch)
         {
             case 'l':
-                printf("List Attributes\n");
                 listAttributes = true;
                 break;
 
             case 'd':
                 deviceNumber = atoi(optarg);
-                printf("Configuring device (board) number %d\n", deviceNumber);
+                deviceNumberIsDefault = false;
                 break;
 
             case 'p':
@@ -92,22 +90,20 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    int dnum = 0;
+    dnum = 0;
     deckLink = NULL;
-
     while (deckLinkIterator->Next(&deckLink) == S_OK)
     {
-        if (0 != dnum)
+        char    *deviceNameString = NULL;
+        // Target the correct card if deviceNumber been specified (or defaults to 0)
+        if ((deviceNumber > 0) && (dnum != deviceNumber))
         {
-            dnum++;
-            // Release the IDeckLink instance when we've finished with it to prevent leaks
             deckLink->Release();
+            dnum++;
             continue;
+        } 
 
-        }
-        dnum++;
-
-        // Query the DeckLink for its configuration interface
+        // Query the DeckLink for its input interface
         result = deckLink->QueryInterface(IID_IDeckLinkInput, (void**)&deckLinkInput);
         if (result != S_OK)
         {
@@ -115,7 +111,7 @@ int main(int argc, char *argv[])
             exit(result);
         }
 
-        // Query the DeckLink for its configuration interface
+        // Query the DeckLink for the input's configuration interface
         result = deckLinkInput->QueryInterface(IID_IDeckLinkConfiguration, (void**)&deckLinkConfiguration);
         if (result != S_OK)
         {
@@ -125,6 +121,13 @@ int main(int argc, char *argv[])
 
         if ( listAttributes )
         {
+            result = deckLink->GetModelName((const char **) &deviceNameString);
+            if (result == S_OK)
+            {
+                printf("\n=============== Card #%d (%s) ===============\n", dnum, deviceNameString);
+                free(deviceNameString);
+            }
+
             // Query the DeckLink for its attributes interface
             result = deckLink->QueryInterface(IID_IDeckLinkAttributes, (void**)&deckLinkAttributes);
             if (result != S_OK)
@@ -199,9 +202,10 @@ int main(int argc, char *argv[])
         result = deckLinkConfiguration->GetInt(bmdDeckLinkConfigVideoInputConnection, &ports);
         printf("Current port: %ld\n", ports);
 
-        if (inputPort >= 0 )
+        // Port setting & saving
+        if (inputPort >= 0)
         {
-            printf("Setting input port to %d\n", inputPort);
+            printf("Setting card %d's input port to %d\n", dnum, inputPort);
             if ( (result=deckLinkConfiguration->SetInt(bmdDeckLinkConfigVideoInputConnection, inputPort)) != S_OK )
             {
                 printf("Couldn't set input port to %d\n\n", inputPort);
@@ -209,7 +213,7 @@ int main(int argc, char *argv[])
             }
             if ( saveConfig )
             {
-                printf("Saving configuration ...\n");
+                printf("Saving configuration ... ");
                 if ( (result=deckLinkConfiguration->WriteConfigurationToPreferences()) == S_OK )
                 {
                     printf("New configuration saved\n");
@@ -221,11 +225,12 @@ int main(int argc, char *argv[])
                 }
             }
         }
-        exit(result);
 
+        deckLink->Release();
+        dnum++;
     }
 
-    return a.exec();
+    return(0);
 }
 
 void showHelp(char *appName)
