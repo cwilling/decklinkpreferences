@@ -90,13 +90,13 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    dnum = 0;
+    dnum = -1;
     deckLink = NULL;
     while (deckLinkIterator->Next(&deckLink) == S_OK)
     {
         char    *deviceNameString = NULL;
         // Target the correct card if deviceNumber been specified (or defaults to 0)
-        if ((deviceNumber > 0) && (dnum != deviceNumber))
+        if ((deviceNumber > -1) && (dnum != deviceNumber))
         {
             deckLink->Release();
             dnum++;
