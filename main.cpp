@@ -30,7 +30,8 @@ int main(int argc, char *argv[])
     char        *appName = argv[0];
     int         ch;
     int64_t     ports = -1;
-    int         dnum, deviceNumber = 0;
+    int         dnum = 0;
+    int         deviceNumber = -1;
     int         inputPort = -1;
     bool        deviceNumberIsDefault = true;
     bool        displayHelp = false;
@@ -90,13 +91,12 @@ int main(int argc, char *argv[])
         exit(1);
     }
 
-    dnum = 0;
     deckLink = NULL;
     while (deckLinkIterator->Next(&deckLink) == S_OK)
     {
         char    *deviceNameString = NULL;
         // Target the correct card if deviceNumber been specified (or defaults to 0)
-        if ((deviceNumber > 0) && (dnum != deviceNumber))
+        if ((deviceNumber > -1) && (dnum != deviceNumber))
         {
             deckLink->Release();
             dnum++;
