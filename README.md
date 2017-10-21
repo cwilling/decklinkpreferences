@@ -5,7 +5,7 @@ A way to set preferences for Decklink cards from the command line.
 ### Features
 Since this is just a proof of concept, we only set the video input port at the moment; maybe other features later.
 
-Systems with multiple Decklink cards have _not_ been considered - in this case use at your own risk!
+Systems with multiple Decklink cards could use the code in the `develop` branch. Until more local testing of that code (or many reports of success elsewhere) the master branch does not yet support systems with multiple cards.
 
 ### Building
 The Blackmagic Design SDK is required to build from source code.
