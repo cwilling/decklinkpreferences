@@ -15,10 +15,10 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-INCLUDEPATH += $HOME/pixelizator/bmdtools/Linux/include
+INCLUDEPATH += $${SDK_PATH}
 
 SOURCES += main.cpp \
-        $HOME/pixelizator/bmdtools/Linux/include/DeckLinkAPIDispatch.cpp
+        $${SDK_PATH}/DeckLinkAPIDispatch.cpp
 
 HEADERS +=
 

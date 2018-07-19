@@ -12,7 +12,7 @@ The Blackmagic Design SDK is required to build from source code.
 
 Run:
 ```
-	qmake
+	qmake SDK_PATH=path_to_your_black_magic_sdk_include_catalog
 	make
 ```
 to produce the _decklinkpreferences_ executable.
