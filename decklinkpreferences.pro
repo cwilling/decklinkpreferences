@@ -15,10 +15,10 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-INCLUDEPATH += /usr/include/decklink
+INCLUDEPATH += $${SDK_PATH}
 
 SOURCES += main.cpp \
-        /usr/include/decklink/DeckLinkAPIDispatch.cpp
+        $${SDK_PATH}/DeckLinkAPIDispatch.cpp
 
 HEADERS +=
 
