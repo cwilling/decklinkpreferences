@@ -1,3 +1,5 @@
+Please note that any further development of this project now occcurs at https://gitlab.com/chris.willing/decklinkpreferences
+
 # decklinkpreferences
 
 A way to set preferences for Decklink cards from the command line.
